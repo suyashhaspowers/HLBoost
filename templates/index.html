@@ -1,0 +1,97 @@
+<!doctype html>
+<title>Home</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+<body>
+    <div class="container">
+        <div id="nav">
+            <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+                <a class="navbar-brand" href="#">HLBoost</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="/design-option-1">Design Option #1</a>
+                    <a class="nav-item nav-link" href="/design-option-2">Design Option #2</a>
+                    <a class="nav-item nav-link" href="/design-option-3">Design Option #3</a>
+                </div>
+                </div>
+            </nav>
+        </div>
+        {% if not is_last_session_rated %}
+            <div id="productivity-form" style="margin-top: 15px;">
+                <div class="card text-center">
+                    <div class="card-header">
+                    Productivity Gauger
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="form-group">
+                              <label for="sessionDate">What is the date of current study session?</label>
+                              <input type="date" class="form-control" id="sessionDate" placeholder="mm/dd/yyyy">
+                            </div>
+                            <div class="form-group">
+                              <label for="stressSelect">Stress level at start of session?</label>
+                              <select class="form-control" id="stressSelect" placeholder=""> 
+                                <option hidden disabled selected value> -- select an option -- </option> 
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="stressSelectEnd">Stress level at end of session?</label>
+                                <select class="form-control" id="stressSelectEnd">
+                                  <option hidden disabled selected value> -- select an option -- </option>
+                                  <option>1</option>
+                                  <option>2</option>
+                                  <option>3</option>
+                                  <option>4</option>
+                                  <option>5</option>
+                                </select>
+                              </div>
+                            <div class="form-group">
+                              <label for="energySelect">Energy level at start of session?</label>
+                              <select class="form-control" id="energySelect">
+                                <option hidden disabled selected value> -- select an option -- </option>
+                                <option>1</option>
+                                <option>2</option>
+                                <option>3</option>
+                                <option>4</option>
+                                <option>5</option>
+                              </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="energySelectEnd">Energy level at end of session?</label>
+                                <select class="form-control" id="energySelectEnd">
+                                  <option hidden disabled selected value> -- select an option -- </option>
+                                  <option>1</option>
+                                  <option>2</option>
+                                  <option>3</option>
+                                  <option>4</option>
+                                  <option>5</option>
+                                </select>
+                              </div>
+                            <div class="form-group">
+                              <label for="goalSelect">Did you meet your study session goals?</label>
+                              <select class="form-control" id="goalSelect">
+                                <option hidden disabled selected value> -- select an option -- </option>
+                                <option>Yes</option>
+                                <option>No</option>
+                              </select>
+                            </div>
+                          </form>
+                    </div>
+                    <div class="card-footer text-muted">
+                    HLBoost ©
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if is_last_session_rated %}
+            <!-- ADD DATA SUMMARY HTML CODE HERE -->
+        {% endif %}
+    </div>
+</body>
