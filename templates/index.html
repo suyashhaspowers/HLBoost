@@ -11,9 +11,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-item nav-link" href="/design-option-1">Design Option #1</a>
-                    <a class="nav-item nav-link" href="/design-option-2">Design Option #2</a>
-                    <a class="nav-item nav-link" href="/design-option-3">Design Option #3</a>
+                    <a class="nav-item nav-link" href="design-option-1">Design Option #1</a>
+                    <a class="nav-item nav-link" href="design-option-2">Design Option #2</a>
+                    <a class="nav-item nav-link" href="design-option-3">Design Option #3</a>
                 </div>
                 </div>
             </nav>
@@ -83,15 +83,46 @@
                               </select>
                             </div>
                           </form>
+                          <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                     <div class="card-footer text-muted">
                     HLBoost ©
                     </div>
                 </div>
             </div>
-        {% endif %}
-        {% if is_last_session_rated %}
-            <!-- ADD DATA SUMMARY HTML CODE HERE -->
-        {% endif %}
-    </div>
-</body>
+            {% endif %}
+            {% if is_last_session_rated %}
+            <table class="table">
+              <thead class="thead-light">
+                <tr>
+                  <th scope="col">Session (#)</th>
+                  <th scope="col">Lighting (Lumins)</th>
+                  <th scope="col">Humidity (%)</th>
+                  <th scope="col">Productivity (Low, Mid, High)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">1</th>
+                  <td>400</td>
+                  <td>54</td>
+                  <td>High</td>
+                </tr>
+                <tr>
+                  <th scope="row">2</th>
+                  <td>300</td>
+                  <td>46</td>
+                  <td>Mid</td>
+                </tr>
+                <tr>
+                  <th scope="row">3</th>
+                  <td>500</td>
+                  <td>49</td>
+                  <td>Mid</td>
+                </tr>
+              </tbody>
+            </table>
+
+                    {% endif %}
+                </div>
+            </body>
