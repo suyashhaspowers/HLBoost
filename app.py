@@ -10,6 +10,8 @@ from DV_Option_3.option_3 import generate_design_option_three
 
 app = Flask(__name__)
 
+productivityResult = 0
+
 IS_LAST_SESSION_RATED = False # Default when server starts up
 TOTAL_SESSIONS_DATA_CSV = 'CSV/test.csv' # CSV record that contains data for the Design Option Visualizations
 
@@ -110,25 +112,29 @@ def index():
 @app.route('/productivityResult', methods=['GET', 'POST']) #obtain the required information using http requests
 def productivityResult():
     # using the post method get the required information from the questionaire using the name tag of the input fields
-    if request.method == 'POST':
-        stressStart = request.form.get('stressSelect')
-        stressEnd = request.form.get('stressSelectEnd')
-        energyStart = request.form.get('energySelect')
-        energyEnd = request.form.get('energySelectEnd')
+    try:
+        if request.method == 'POST':
+            stressStart = request.form.get('stressSelect')
+            stressEnd = request.form.get('stressSelectEnd')
+            energyStart = request.form.get('energySelect')
+            energyEnd = request.form.get('energySelectEnd')
 
-        # calculate a productivity score for the user inputed data
-        productivity = stressStart - stressEnd + (5-energyStart-energyEnd)
-        if productivity>6:
-            productivityResult = 3
-        elif productivity>3:
-            productivityResult = 2
-        else:
-            productivityResult = 1
-            
-    df = read_csv()
-    is_last_session_rated = determine_if_last_session_rated(df)
-    df = update_last_session_rating(is_last_session_rated, df,productivityResult) #pass the productivity score to the DV csv
-    return render_template('productivityResult.html', is_last_session_rated=is_last_session_rated)
+            # calculate a productivity score for the user inputed data
+            productivity = stressStart - stressEnd + (5-energyStart-energyEnd)
+            if productivity>6:
+                productivityResult = 3
+            elif productivity>3:
+                productivityResult = 2
+            else:
+                productivityResult = 1
+                
+        df = read_csv()
+        is_last_session_rated = determine_if_last_session_rated(df)
+        df = update_last_session_rating(is_last_session_rated, df,productivityResult) #pass the productivity score to the DV csv
+        return render_template('productivityResult.html', is_last_session_rated=is_last_session_rated, surveyResult = str(productivityResult))
+
+    except:
+        return render_template('productivityResult.html', is_last_session_rated=is_last_session_rated,  surveyResult = "0")
 
 @app.route('/design-option-1')
 def design_option_1():
