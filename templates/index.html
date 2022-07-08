@@ -5,7 +5,7 @@
     <div class="container">
         <div id="nav">
             <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-                <a class="navbar-brand" href="#">HLBoost</a>
+              <a class="navbar-brand" href="dashboard">HLBoost</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
                 </button>
@@ -18,7 +18,6 @@
                 </div>
             </nav>
         </div>
-        {% if not is_last_session_rated %}
             <div id="productivity-form" style="margin-top: 15px;">
                 <div class="card text-center">
                     <div class="card-header">
@@ -28,11 +27,11 @@
                         <form>
                             <div class="form-group">
                               <label for="sessionDate">What is the date of current study session?</label>
-                              <input type="date" class="form-control" id="sessionDate" placeholder="mm/dd/yyyy">
+                              <input type="date" class="form-control" name="sessionDate" id="sessionDate" placeholder="mm/dd/yyyy">
                             </div>
                             <div class="form-group">
                               <label for="stressSelect">Stress level at start of session?</label>
-                              <select class="form-control" id="stressSelect" placeholder=""> 
+                              <select class="form-control" name="stressSelect" id="stressSelect" placeholder=""> 
                                 <option hidden disabled selected value> -- select an option -- </option> 
                                 <option>1</option>
                                 <option>2</option>
@@ -43,7 +42,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="stressSelectEnd">Stress level at end of session?</label>
-                                <select class="form-control" id="stressSelectEnd">
+                                <select class="form-control" name="stressSelectEnd" id="stressSelectEnd">
                                   <option hidden disabled selected value> -- select an option -- </option>
                                   <option>1</option>
                                   <option>2</option>
@@ -54,7 +53,7 @@
                               </div>
                             <div class="form-group">
                               <label for="energySelect">Energy level at start of session?</label>
-                              <select class="form-control" id="energySelect">
+                              <select class="form-control" name="energySelect" id="energySelect">
                                 <option hidden disabled selected value> -- select an option -- </option>
                                 <option>1</option>
                                 <option>2</option>
@@ -65,7 +64,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="energySelectEnd">Energy level at end of session?</label>
-                                <select class="form-control" id="energySelectEnd">
+                                <select class="form-control" name="energySelectEnd" id="energySelectEnd">
                                   <option hidden disabled selected value> -- select an option -- </option>
                                   <option>1</option>
                                   <option>2</option>
@@ -76,23 +75,23 @@
                               </div>
                             <div class="form-group">
                               <label for="goalSelect">Did you meet your study session goals?</label>
-                              <select class="form-control" id="goalSelect">
+                              <select class="form-control" name="goalSelect" id="goalSelect">
                                 <option hidden disabled selected value> -- select an option -- </option>
                                 <option>Yes</option>
                                 <option>No</option>
                               </select>
                             </div>
                           </form>
-                          <button type="submit" class="btn btn-primary">Submit</button>
+                          <form>
+                          <button type="submit" class="btn btn-primary" formaction="/productivtyResult">Submit</button>
+                          </form>
                     </div>
                     <div class="card-footer text-muted">
                     HLBoost ©
                     </div>
                 </div>
             </div>
-            {% endif %}
-            {% if is_last_session_rated %}
-            <table class="table">
+            <!-- <table class="table">
               <thead class="thead-light">
                 <tr>
                   <th scope="col">Session (#)</th>
@@ -121,8 +120,7 @@
                   <td>Mid</td>
                 </tr>
               </tbody>
-            </table>
+            </table> -->
 
-                    {% endif %}
                 </div>
             </body>
