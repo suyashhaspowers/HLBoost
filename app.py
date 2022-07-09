@@ -8,6 +8,8 @@ from DV_Option_1.option_1 import generate_design_option_one
 from DV_Option_2.option_2 import generate_design_option_two
 from DV_Option_3.option_3 import generate_design_option_three
 
+# This file contains all the code that starts up the flask server for our webapp.
+
 app = Flask(__name__)
 
 productivityResult = 0
@@ -92,17 +94,17 @@ def compute_optimal_light_and_humidity_value(df):
 # ex. {WEBSITE_URL}/design-option-1 - opens design option #1
 # ex. {WEBSITE_URL}/design-option-3 - opens design option #3
 
-
+# Launch homepage
 @app.route('/')
 def start():
-    df = read_csv()
-    is_last_session_rated = determine_if_last_session_rated(df)
-    df = update_last_session_rating(is_last_session_rated, df,productivityResult)
-    return render_template('homepage.html', is_last_session_rated=is_last_session_rated)
+    return render_template('homepage.html')
 
-#launch the questionaire
+# Launch the questionaire after a user stops a study session
 @app.route('/dashboard')
 def index():
+    # Read total number of sessions csv to determine if a productivity rating was assigned 
+    # to the last study session row. If yes, do not launch the productivity questionaire and if no,
+    # launch the questionnaire and update the csv record with the newly computed value
     df = read_csv()
     is_last_session_rated = determine_if_last_session_rated(df)
     df = update_last_session_rating(is_last_session_rated, df,productivityResult)
@@ -136,6 +138,7 @@ def productivityResult():
     except:
         return render_template('productivityResult.html', is_last_session_rated=is_last_session_rated,  surveyResult = "0")
 
+# Shows the first design option
 @app.route('/design-option-1')
 def design_option_1():
     df = read_csv()
@@ -146,6 +149,7 @@ def design_option_1():
     average_optimal_light_value, average_optimal_humidity_value = compute_optimal_light_and_humidity_value(df)
     return render_template('designoption1.html', is_last_session_rated=is_last_session_rated, average_optimal_light_value=average_optimal_light_value, average_optimal_humidity_value=average_optimal_humidity_value)
 
+# Shows the second design option
 @app.route('/design-option-2')
 def design_option_2():
     df = read_csv()
@@ -156,6 +160,7 @@ def design_option_2():
     average_optimal_light_value, average_optimal_humidity_value = compute_optimal_light_and_humidity_value(df)
     return render_template('designoption2.html', is_last_session_rated=is_last_session_rated, average_optimal_light_value=average_optimal_light_value, average_optimal_humidity_value=average_optimal_humidity_value)
 
+# Shows the third design option
 @app.route('/design-option-3')
 def design_option_3():
     df = read_csv()
