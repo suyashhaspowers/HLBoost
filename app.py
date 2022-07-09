@@ -1,6 +1,6 @@
 from statistics import mean, pstdev
 from numpy import False_
-from flask import Flask, render_template
+from flask import Flask, render_template, request
 from sqlalchemy import false
 import pandas as pd
 
@@ -9,6 +9,8 @@ from DV_Option_2.option_2 import generate_design_option_two
 from DV_Option_3.option_3 import generate_design_option_three
 
 app = Flask(__name__)
+
+productivityResult = 0
 
 IS_LAST_SESSION_RATED = False # Default when server starts up
 TOTAL_SESSIONS_DATA_CSV = 'CSV/test.csv' # CSV record that contains data for the Design Option Visualizations
@@ -95,14 +97,50 @@ def compute_optimal_light_and_humidity_value(df):
 def start():
     df = read_csv()
     is_last_session_rated = determine_if_last_session_rated(df)
-    df = update_last_session_rating(is_last_session_rated, df,2)
+    df = update_last_session_rating(is_last_session_rated, df,productivityResult)
+    return render_template('homepage.html', is_last_session_rated=is_last_session_rated)
+
+#launch the questionaire
+@app.route('/dashboard')
+def index():
+    df = read_csv()
+    is_last_session_rated = determine_if_last_session_rated(df)
+    df = update_last_session_rating(is_last_session_rated, df,productivityResult)
     return render_template('index.html', is_last_session_rated=is_last_session_rated)
+
+# show the productivity score after completing the study session questionaire
+@app.route('/productivityResult', methods=['GET', 'POST']) #obtain the required information using http requests
+def productivityResult():
+    # using the post method get the required information from the questionaire using the name tag of the input fields
+    try:
+        if request.method == 'POST':
+            stressStart = request.form.get('stressSelect')
+            stressEnd = request.form.get('stressSelectEnd')
+            energyStart = request.form.get('energySelect')
+            energyEnd = request.form.get('energySelectEnd')
+
+            # calculate a productivity score for the user inputed data
+            productivity = stressStart - stressEnd + (5-energyStart-energyEnd)
+            if productivity>6:
+                productivityResult = 3
+            elif productivity>3:
+                productivityResult = 2
+            else:
+                productivityResult = 1
+                
+        df = read_csv()
+        is_last_session_rated = determine_if_last_session_rated(df)
+        df = update_last_session_rating(is_last_session_rated, df,productivityResult) #pass the productivity score to the DV csv
+        return render_template('productivityResult.html', is_last_session_rated=is_last_session_rated, surveyResult = str(productivityResult))
+
+    except:
+        return render_template('productivityResult.html', is_last_session_rated=is_last_session_rated,  surveyResult = "0")
 
 @app.route('/design-option-1')
 def design_option_1():
     df = read_csv()
     is_last_session_rated = determine_if_last_session_rated(df)
-    df = update_last_session_rating(is_last_session_rated, df,2)
+    df = update_last_session_rating(is_last_session_rated, df,productivityResult)
     length = get_length_df(df)
     generate_design_option_one(df, length)
     average_optimal_light_value, average_optimal_humidity_value = compute_optimal_light_and_humidity_value(df)
@@ -112,7 +150,7 @@ def design_option_1():
 def design_option_2():
     df = read_csv()
     is_last_session_rated = determine_if_last_session_rated(df)
-    df = update_last_session_rating(is_last_session_rated, df,2)
+    df = update_last_session_rating(is_last_session_rated, df,productivityResult)
     length = get_length_df(df)
     generate_design_option_two(df, length)
     average_optimal_light_value, average_optimal_humidity_value = compute_optimal_light_and_humidity_value(df)
@@ -122,7 +160,7 @@ def design_option_2():
 def design_option_3():
     df = read_csv()
     is_last_session_rated = determine_if_last_session_rated(df)
-    df = update_last_session_rating(is_last_session_rated, df,2)
+    df = update_last_session_rating(is_last_session_rated, df,productivityResult)
     generate_design_option_three(df)
     average_optimal_light_value, average_optimal_humidity_value = compute_optimal_light_and_humidity_value(df)
     return render_template('designoption3.html', is_last_session_rated=is_last_session_rated, average_optimal_light_value=average_optimal_light_value, average_optimal_humidity_value=average_optimal_humidity_value)
